@@ -21,6 +21,12 @@ namespace Host
                 });
             });
 
+            builder.Configuration.AddJsonFile(
+                $"appsettings.{builder.Environment.EnvironmentName}.json",
+                optional: true,
+                reloadOnChange: true);
+
+            builder.Configuration.AddEnvironmentVariables();
 
             builder.AddContractModule();
 

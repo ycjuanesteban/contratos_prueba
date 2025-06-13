@@ -10,3 +10,19 @@ services:
       POSTGRES_DB: proximaenergia
     volumes:
       - ./proximaenergia.sql:/docker-entrypoint-initdb.d/init.sql
+ 
+  api:
+    build:
+        context: .
+        dockerfile: backend/Energy.Api/src/Host/Dockerfile
+    ports:
+      - "5073:5073"
+    environment:
+      - ASPNETCORE_URLS=http://+:5073
+      - ASPNETCORE_HTTP_PORTS= 5073
+      # Comment the next line to remove swagger and development configuration
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ConnectionStrings__DefaultConnection=User ID=user;Password=password;Host=postgres;Port=5432;Database=proximaenergia
+
+    depends_on:
+     - database
